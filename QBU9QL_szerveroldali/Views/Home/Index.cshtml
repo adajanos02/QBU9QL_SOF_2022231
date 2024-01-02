@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<Contact>
+
+
+<ul>
+    @foreach(var contact in Model)
+    {
+        <li class="title">@contact.Name
+            <ul>
+                <li>@contact.PhoneNumber</li>
+            </ul>
+
+        </li>
+    }
+</ul>
