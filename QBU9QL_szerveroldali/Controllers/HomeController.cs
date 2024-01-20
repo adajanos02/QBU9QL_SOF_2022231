@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace QBU9QL_szerveroldali.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -25,7 +26,9 @@ namespace QBU9QL_szerveroldali.Controllers
 
         public IActionResult Index()
         {
-            return View(_ctx.Contacts);
+            var userId = _userManager.GetUserId(User);
+            var contacts = _ctx.Contacts.Where(c => c.OwnerId == userId).ToList();
+            return View(contacts);
         }
         [Authorize]
         public IActionResult Add()
@@ -49,7 +52,7 @@ namespace QBU9QL_szerveroldali.Controllers
         [HttpPost]
         public IActionResult Add(Contact contact)
         {
-            contact.Id = _userManager.GetUserId(this.User);
+            contact.OwnerId = _userManager.GetUserId(this.User).ToString();
 
             var old = _ctx.Contacts.FirstOrDefault(t => t.Name == contact.Name && t.Id == contact.Id);
             if (old == null)
@@ -57,19 +60,21 @@ namespace QBU9QL_szerveroldali.Controllers
                 _ctx.Contacts.Add(contact);
                 _ctx.SaveChanges();
             }
-            
+
+
+
 
             return RedirectToAction(nameof(Index));
         }
-        //public IActionResult Delete(string uid)
-        //{
-        //    var item = _ctx.Contacts.FirstOrDefault(t => t.Id == uid);
-        //    if (item != null && item.PhoneNumber == _userManager.GetUserId(this.User))
-        //    {
-        //        _ctx.Contacts.Remove(item);
-        //        _ctx.SaveChanges();
-        //    }
-        //    return RedirectToAction(nameof(Index));
-        //}
+        public IActionResult Delete(string uid)
+        {
+            var item = _ctx.Contacts.FirstOrDefault(t => t.Id == uid);
+            if (item != null && item.PhoneNumber == _userManager.GetUserId(this.User))
+            {
+                _ctx.Contacts.Remove(item);
+                _ctx.SaveChanges();
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
