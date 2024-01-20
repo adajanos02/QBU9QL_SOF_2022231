@@ -9,6 +9,7 @@ namespace QBU9QL_szerveroldali.Data
     {
         public DbSet<SiteUser> Users { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Travel> Travels { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
