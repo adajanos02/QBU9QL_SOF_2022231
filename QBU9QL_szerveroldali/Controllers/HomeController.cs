@@ -13,11 +13,11 @@ namespace QBU9QL_szerveroldali.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<SiteUser> _userManager;
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _ctx;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, ApplicationDbContext ctx)
+        public HomeController(ILogger<HomeController> logger, UserManager<SiteUser> userManager, ApplicationDbContext ctx)
         {
             _logger = logger;
             _userManager = userManager;
@@ -69,7 +69,7 @@ namespace QBU9QL_szerveroldali.Controllers
         public IActionResult Delete(string uid)
         {
             var item = _ctx.Contacts.FirstOrDefault(t => t.Id == uid);
-            if (item != null && item.PhoneNumber == _userManager.GetUserId(this.User))
+            if (item != null && item.OwnerId == _userManager.GetUserId(this.User))
             {
                 _ctx.Contacts.Remove(item);
                 _ctx.SaveChanges();
