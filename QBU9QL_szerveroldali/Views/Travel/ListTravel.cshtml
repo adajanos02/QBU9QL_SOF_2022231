@@ -12,12 +12,12 @@
             <ul>
                 <li>@travel.Distance Km</li>
             </ul>
-            @if (travel.OwnerId == UserManager.GetUserId(User))
-            {
-                <a href="Home/Delete?uid=@travel.Id">Delete</a>
-            }
             Szervező:
             <img src="@Url.Action("GetImage", "Travel", new {userid = travel.OwnerId})" />
+            @if (travel.OwnerId == UserManager.GetUserId(User))
+            {
+                <a href="DeleteTravel?uid=@travel.Id">Delete</a>
+            }
         </li>
     }
 </ul>
