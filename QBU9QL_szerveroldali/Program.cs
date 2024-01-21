@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QBU9QL_szerveroldali.Data;
+using QBU9QL_szerveroldali.Logic;
 using QBU9QL_szerveroldali.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddScoped<IContactLogic, ContactLogic>();
+builder.Services.AddScoped<ITravelLogic, TravelLogic>();
 
 // Add services to the container.
 var connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=aspnet-QBU9QL_szerveroldali-33a91210-fcc2-48c9-95de-42736c100696;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
@@ -24,6 +26,8 @@ builder.Services.AddDefaultIdentity<SiteUser>(options =>
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

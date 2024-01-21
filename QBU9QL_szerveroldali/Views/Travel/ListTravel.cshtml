@@ -3,21 +3,39 @@
 @inject SignInManager<SiteUser> SignInManager
 @inject UserManager<SiteUser> UserManager
 
+<h1>Available travels</h1>
+<table class="table">
 
-<ul>
+    <thead>
+        <tr>
+            <th scope="col">Start</th>
+            <th scope="col">Finish</th>
+            <th scope="col">Distance</th>
+            <th scope="col">Organizer</th>
+
+        </tr>
+    </thead>
     @foreach (var travel in Model)
     {
-        
-        <li class="title">@travel.StartingPoint - @travel.Destination
-            <ul>
-                <li>@travel.Distance Km</li>
-            </ul>
-            Szervező:
-            <img src="@Url.Action("GetImage", "Travel", new {userid = travel.OwnerId})" />
-            @if (travel.OwnerId == UserManager.GetUserId(User))
-            {
-                <a href="DeleteTravel?uid=@travel.Id">Delete</a>
-            }
-        </li>
+        <tbody>
+            <tr>
+                <td>@travel.StartingPoint</td>
+                <td>@travel.Destination</td>
+                <td>@travel.Distance Km</td>
+                <td> <img src="@Url.Action("GetImage", "Travel", new {userid = travel.OwnerId})" /></td>
+                <td>
+                    @if (travel.OwnerId == UserManager.GetUserId(User))
+                    {
+                        <a href="DeleteTravel?uid=@travel.Id" class="btn btn-primary">Delete</a>
+                    }
+                </td>
+            </tr>
+        </tbody>
     }
-</ul>
+
+</table>
+
+
+
+
+

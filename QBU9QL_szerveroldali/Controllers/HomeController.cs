@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-
+using QBU9QL_szerveroldali.Logic;
 
 namespace QBU9QL_szerveroldali.Controllers
 {
@@ -17,9 +17,13 @@ namespace QBU9QL_szerveroldali.Controllers
         private readonly UserManager<SiteUser> _userManager;
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _ctx;
+        private readonly IContactLogic _logic;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<SiteUser> userManager, ApplicationDbContext ctx)
+        // Existing constructor
+
+        public HomeController(IContactLogic logic, ILogger<HomeController> logger, UserManager<SiteUser> userManager, ApplicationDbContext ctx)
         {
+            _logic = logic;
             _logger = logger;
             _userManager = userManager;
             _ctx = ctx;
@@ -28,9 +32,28 @@ namespace QBU9QL_szerveroldali.Controllers
         public IActionResult Index()
         {
             var userId = _userManager.GetUserId(User);
-            var contacts = _ctx.Contacts.Where(c => c.OwnerId == userId).ToList();
+            var contacts = _logic.GetContacts(userId);
             return View(contacts);
         }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Add(Contact contact)
+        {
+            var ownerId = _userManager.GetUserId(this.User).ToString();
+            _logic.AddContact(contact, ownerId);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Delete(string uid)
+        {
+            var ownerId = _userManager.GetUserId(this.User);
+            _logic.DeleteContact(uid, ownerId);
+
+            return RedirectToAction(nameof(Index));
+        }
+       
         [Authorize]
         public IActionResult Add()
         {
@@ -49,34 +72,9 @@ namespace QBU9QL_szerveroldali.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        [Authorize]
-        [HttpPost]
-        public IActionResult Add(Contact contact)
-        {
-            contact.OwnerId = _userManager.GetUserId(this.User).ToString();
-
-            var old = _ctx.Contacts.FirstOrDefault(t => t.Name == contact.Name && t.Id == contact.Id);
-            if (old == null)
-            {
-                _ctx.Contacts.Add(contact);
-                _ctx.SaveChanges();
-            }
-
-
-
-
-            return RedirectToAction(nameof(Index));
-        }
-        public IActionResult Delete(string uid)
-        {
-            var item = _ctx.Contacts.FirstOrDefault(t => t.Id == uid);
-            if (item != null && item.OwnerId == _userManager.GetUserId(this.User))
-            {
-                _ctx.Contacts.Remove(item);
-                _ctx.SaveChanges();
-            }
-            return RedirectToAction(nameof(Index));
-        }
+        
+       
+       
 
 
 

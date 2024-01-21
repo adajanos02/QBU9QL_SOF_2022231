@@ -2,14 +2,32 @@
 @model IEnumerable<Contact>
 
 
-<ul>
-    @foreach(var contact in Model)
+<h1>Contacts</h1>
+<table class="table">
+    
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Phone Number</th>
+              
+            </tr>
+        </thead>
+    @foreach (var contact in Model)
     {
-        <li class="title">@contact.Name
-            <ul>
-                <li>Phone: @contact.PhoneNumber</li>
-            </ul>
-            <a href="Home/Delete?uid=@contact.Id">Delete</a>
-        </li>
+        <tbody>
+            <tr>
+                <td>@contact.Name</td>
+                <td>@contact.PhoneNumber</td>
+                <td>
+                    <a href="Home/Delete?uid=@contact.Id" class="btn btn-primary">Delete</a>
+                </td>
+            </tr>
+        </tbody>
     }
-</ul>
+    
+</table>
+
+
+
+
+
