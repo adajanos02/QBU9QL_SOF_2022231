@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<Travel>
+@inject SignInManager<SiteUser> SignInManager
+@inject UserManager<SiteUser> UserManager
+
+
+<ul>
+    @foreach (var travel in Model)
+    {
+        
+        <li class="title">@travel.StartingPoint - @travel.Destination
+            <ul>
+                <li>@travel.Distance Km</li>
+            </ul>
+            @if (travel.OwnerId == UserManager.GetUserId(User))
+            {
+                <a href="Home/Delete?uid=@travel.Id">Delete</a>
+            }
+            Szervező:
+            <img src="@Url.Action("GetImage", "Travel", new {userid = travel.OwnerId})" />
+        </li>
+    }
+</ul>

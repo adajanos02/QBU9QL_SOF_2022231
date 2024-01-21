@@ -6,6 +6,7 @@ using QBU9QL_szerveroldali.Models;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace QBU9QL_szerveroldali.Controllers
@@ -76,5 +77,12 @@ namespace QBU9QL_szerveroldali.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+
+
+
+
+
+        
     }
 }

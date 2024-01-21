@@ -19,6 +19,14 @@ namespace QBU9QL_szerveroldali.Models
         {
             Id = Guid.NewGuid().ToString();
         }
+        public Travel(string id, string start, string destination, int distance)
+        {
+            Id = Guid.NewGuid().ToString();
+            OwnerId = id;
+            StartingPoint = start;
+            Destination = destination;
+            Distance = distance;
+        }
 
     }
 }

@@ -27,29 +27,22 @@ namespace QBU9QL_szerveroldali.Data
                 .WithMany()
                 .HasForeignKey(t => t.OwnerId)
                 .OnDelete(DeleteBehavior.Cascade);
-            base.OnModelCreating(builder);
             
 
-            //builder.Entity<Contact>().HasData(new Contact[]
-            //{
-            //    new Contact("Anya", "+36204457996"),
-            //    new Contact("Apa", "+36206694477"),
-            //});
+            builder.Entity<Travel>()
+                .HasOne(t => t.Owner)
+                .WithMany()
+                .HasForeignKey(t => t.OwnerId)
+                .OnDelete(DeleteBehavior.Cascade);
+            base.OnModelCreating(builder);
+
+            builder.Entity<Travel>().HasData(new Travel[]
+            {
+                new Travel("107887a9-4a29-4dca-adb1-adb179559207","Abádszalók","Tiszaderzs", 15),
+                
+            });
         }
 
-        //protected override void Seed(ApplicationDbContext context)
-        //{
-        //    if (!context.Contacts.Any())
-        //    {
-        //        var initialData = new List<Contact>
-        //        {
-        //            new Contact {Name= "Anya", PhoneNumber = "+36204457996"},
-        //            new Contact {Name = "Apa", PhoneNumber = "+36206694477"},
-        //        };
-
-        //        context.Contacts.AddRange(initialData);
-        //        context.SaveChanges();
-        //    }
-        //}
+        
     }
 }

@@ -6,6 +6,7 @@ using QBU9QL_szerveroldali.Models;
 
 namespace QBU9QL_szerveroldali.Controllers
 {
+    [Authorize]
     public class TravelController : Controller
     {
         private readonly UserManager<SiteUser> _userManager;
@@ -18,22 +19,23 @@ namespace QBU9QL_szerveroldali.Controllers
             _logger = logger;
             _context = context;
         }
-        [Authorize]
-        public IActionResult Index()
+        
+        public IActionResult ListTravel()
         {
             return View(_context.Travels);
         }
         [Authorize]
-        public IActionResult Add()
+        public IActionResult AddTravel()
         {
             return View();
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Add(Travel travel)
+        public async Task<IActionResult> AddTravel(Travel travel)
         {
-            travel.OwnerId = _userManager.GetUserId(this.User);
+            travel.OwnerId = _userManager.GetUserId(this.User).ToString();
+            
 
             var old = _context.Travels.FirstOrDefault(t => t.Destination == travel.Destination && t.OwnerId == travel.OwnerId);
             if (old == null)
@@ -42,10 +44,10 @@ namespace QBU9QL_szerveroldali.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ListTravel));
         }
-
-        public IActionResult Delete(string uid)
+        [Authorize]
+        public IActionResult DeleteTravel(string uid)
         {
             var item = _context.Travels.FirstOrDefault(t => t.Id == uid);
             if (item != null && item.OwnerId == _userManager.GetUserId(this.User))
@@ -53,7 +55,14 @@ namespace QBU9QL_szerveroldali.Controllers
                 _context.Travels.Remove(item);
                 _context.SaveChanges();
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ListTravel));
+        }
+
+        public async Task<IActionResult> GetImage(string userid)
+        {
+
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == userid);
+            return new FileContentResult(user.Data, user.ContentType);
         }
     }
 }
