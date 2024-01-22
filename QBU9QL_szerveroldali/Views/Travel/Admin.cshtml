@@ -1,0 +1,37 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<Travel>
+
+
+<h1>Available travels</h1>
+<table class="table">
+
+    <thead>
+        <tr>
+            <th scope="col">Start</th>
+            <th scope="col">Finish</th>
+            <th scope="col">Distance</th>
+            <th scope="col">Organizer</th>
+
+        </tr>
+    </thead>
+    @foreach (var travel in Model)
+    {
+        <tbody>
+            <tr>
+                <td>@travel.StartingPoint</td>
+                <td>@travel.Destination</td>
+                <td>@travel.Distance Km</td>
+                <td> <img src="@Url.Action("GetImage", "Travel", new {userid = travel.OwnerId})" /></td>
+                <td>
+                    <a href="AdminDeleteTravel?uid=@travel.Id" class="btn btn-primary">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    }
+
+</table>
+
+
+
+
+

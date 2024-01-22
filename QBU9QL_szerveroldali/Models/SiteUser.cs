@@ -10,7 +10,7 @@ namespace QBU9QL_szerveroldali.Models
 
         public string LastName { get; set; }
         public virtual ICollection<Contact> Contacts { get; set; }
-
+        
         public string ContentType { get; set; }
 
         public byte[] Data { get; set; }

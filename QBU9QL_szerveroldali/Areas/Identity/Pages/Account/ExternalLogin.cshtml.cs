@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using QBU9QL_szerveroldali.Models;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace QBU9QL_szerveroldali.Areas.Identity.Pages.Account
 {
@@ -45,7 +47,11 @@ namespace QBU9QL_szerveroldali.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
         }
-
+        public class TokenModel
+        {
+            public string access_token { get; set; }
+            public string token_type { get; set; }
+        }
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -85,6 +91,33 @@ namespace QBU9QL_szerveroldali.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+            [Required]
+            [StringLength(100)]
+            public string FirstName { get; set; }
+
+            [Required]
+            [StringLength(100)]
+            public string LastName { get; set; }
+
+            public string PictureUrl { get; set; }
+
+            public byte[] PictureData { get; set; }
+
+            public string PictureContentType { get; set; }
+
+            public string BytesAsString
+            {
+                get
+                {
+                    if (PictureData != null)
+                    {
+                        return Convert.ToBase64String(PictureData);
+                    }
+                    else return "";
+
+                }
+            }
         }
         
         public IActionResult OnGet() => RedirectToPage("./Login");
@@ -130,11 +163,22 @@ namespace QBU9QL_szerveroldali.Areas.Identity.Pages.Account
                 ProviderDisplayName = info.ProviderDisplayName;
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 {
+                    var id = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                        FirstName = info.Principal.FindFirstValue(ClaimTypes.Surname),
+                        LastName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
+                        
+                        
                     };
+
+                    var access_token_json = new WebClient().DownloadString("https://graph.facebook.com/oauth/access_token?client_id=793921149241773&client_secret=19d942c44b83673d20240e3b207525c8&grant_type=client_credentials");
+                    var token = JsonConvert.DeserializeObject<TokenModel>(access_token_json);
+                    Input.PictureUrl = $"https://graph.facebook.com/{id}/picture?type=square";
+                    ;
                 }
+
                 return Page();
             }
         }
@@ -153,6 +197,15 @@ namespace QBU9QL_szerveroldali.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
+
+                var wc = new WebClient();
+                user.Data = wc.DownloadData(Input.PictureUrl);
+                user.ContentType = wc.ResponseHeaders["Content-Type"];
+                user.EmailConfirmed = true;
+               
+
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

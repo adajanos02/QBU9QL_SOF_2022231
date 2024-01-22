@@ -19,7 +19,7 @@ namespace QBU9QL_szerveroldali.Data
                     {
                         new Travel()
                         {
-                            OwnerId = "2c3a4c83-4df1-4469-a243-fb8cb21d08fd",
+                            OwnerId = "705f4658-d61c-40e7-9a7c-f635e583ce39",
                             StartingPoint = "Balatonfüred",
                             Destination = "Pilisszentgyörgy",
                             Distance = 350,
@@ -27,7 +27,7 @@ namespace QBU9QL_szerveroldali.Data
 
                         new Travel()
                         {
-                            OwnerId = "562958d3-4fa5-4dd4-b5ed-ac5b677371b0",
+                            OwnerId = "80d6005b-1f28-4c62-8386-1b7fb787459b",
                             StartingPoint = "Eger",
                             Destination = "Lillafüred",
                             Distance = 120,
@@ -35,19 +35,11 @@ namespace QBU9QL_szerveroldali.Data
 
                         new Travel()
                         {
-                            OwnerId = "ba6517f1-a5e4-4aa2-a62c-d8ea2ebd3a9e",
+                            OwnerId = "ad21259c-86dc-43f1-bb95-f6d2cd9fbc1b",
                             StartingPoint = "Békéscsaba",
                             Destination = "Párkány",
                             Distance = 380,
                         },
-
-                        new Travel()
-                        {
-                            OwnerId = "ebbee41d-05fe-41b6-8991-f2baf9893ad0",
-                            StartingPoint = "Abádszalók",
-                            Destination = "Szilvásvárad",
-                            Distance = 220,
-                        }
 
                     });
                     context.SaveChanges();
@@ -59,31 +51,25 @@ namespace QBU9QL_szerveroldali.Data
                     {
                         new Contact()
                         {
-                            OwnerId = "2c3a4c83-4df1-4469-a243-fb8cb21d08fd",
+                            OwnerId = "705f4658-d61c-40e7-9a7c-f635e583ce39",
                             Name = "Mentők",
                             PhoneNumber = "104"
                         },
 
                         new Contact()
                         {
-                            OwnerId = "562958d3-4fa5-4dd4-b5ed-ac5b677371b0",
+                            OwnerId = "80d6005b-1f28-4c62-8386-1b7fb787459b",
                             Name = "Mentők",
                             PhoneNumber = "104"
                         },
 
                         new Contact()
                         {
-                            OwnerId = "ba6517f1-a5e4-4aa2-a62c-d8ea2ebd3a9e",
+                            OwnerId = "ad21259c-86dc-43f1-bb95-f6d2cd9fbc1b",
                             Name = "Mentők",
                             PhoneNumber = "104"
                         },
 
-                        new Contact()
-                        {
-                            OwnerId = "ebbee41d-05fe-41b6-8991-f2baf9893ad0",
-                            Name = "Mentők",
-                            PhoneNumber = "104"
-                        },
                     });
                     context.SaveChanges();
                 }

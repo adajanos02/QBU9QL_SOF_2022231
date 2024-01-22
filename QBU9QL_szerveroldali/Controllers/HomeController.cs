@@ -16,18 +16,23 @@ namespace QBU9QL_szerveroldali.Controllers
     {
         private readonly UserManager<SiteUser> _userManager;
         private readonly ILogger<HomeController> _logger;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _ctx;
         private readonly IContactLogic _logic;
 
+        public HomeController(UserManager<SiteUser> userManager, ILogger<HomeController> logger, RoleManager<IdentityRole> roleManager, ApplicationDbContext ctx, IContactLogic logic)
+        {
+            _userManager = userManager;
+            _logger = logger;
+            _roleManager = roleManager;
+            _ctx = ctx;
+            _logic = logic;
+        }
+
         // Existing constructor
 
-        public HomeController(IContactLogic logic, ILogger<HomeController> logger, UserManager<SiteUser> userManager, ApplicationDbContext ctx)
-        {
-            _logic = logic;
-            _logger = logger;
-            _userManager = userManager;
-            _ctx = ctx;
-        }
+
+        
 
         public IActionResult Index()
         {

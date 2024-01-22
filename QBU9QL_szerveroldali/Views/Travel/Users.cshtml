@@ -1,0 +1,32 @@
+﻿@model IEnumerable<SiteUser>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<SiteUser> SignInManager
+@inject UserManager<SiteUser> UserManager
+
+
+<h1>Users</h1>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+@{
+        @foreach (var user in Model)
+        {
+            <div class="card" style="width: 10rem;">
+                <img src="@Url.Action("GetImage", "Travel", new {userid = user.Id})" class="card-img" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">@user.FirstName @user.LastName</h5>
+                    @if (await UserManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        <a class="btn btn-danger" href="/Travel/RemoveAdmin?uid=@user.Id">Remove Admin Rights</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-success" href="/Travel/GrantAdmin?uid=@user.Id">Grant Admin Rights</a>
+                    }
+                </div>
+            </div>
+        }
+}
+</div>
+    
+
+

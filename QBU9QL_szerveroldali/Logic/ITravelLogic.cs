@@ -7,5 +7,6 @@ namespace QBU9QL_szerveroldali.Logic
         IEnumerable<Travel> GetTravels(string ownerId);
         void AddTravel(Travel travel, string ownerId);
         void DeleteTravel(string travelId, string ownerId);
+        void AdminDeleteTravel(string travelId, string ownerId);
     }
 }

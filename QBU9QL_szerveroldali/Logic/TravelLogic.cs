@@ -42,5 +42,14 @@ namespace QBU9QL_szerveroldali.Logic
                 _context.SaveChanges();
             }
         }
+        public void AdminDeleteTravel(string travelId, string ownerId)
+        {
+            var item = _context.Travels.FirstOrDefault(t => t.Id == travelId);
+            if (item != null)
+            {
+                _context.Travels.Remove(item);
+                _context.SaveChanges();
+            }
+        }
     }
 }
