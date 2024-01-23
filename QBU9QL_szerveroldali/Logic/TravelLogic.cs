@@ -16,6 +16,9 @@ namespace QBU9QL_szerveroldali.Logic
             _userManager = userManager;
         }
 
+        
+        
+
         public IEnumerable<Travel> GetTravels(string ownerId)
         {
             return _context.Travels.ToList();

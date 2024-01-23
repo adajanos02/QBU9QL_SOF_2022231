@@ -10,6 +10,7 @@ namespace QBU9QL_szerveroldali.Data
         public DbSet<SiteUser> Users { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Travel> Travels { get; set; }
+        public DbSet<Galery> Galery { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -32,11 +33,7 @@ namespace QBU9QL_szerveroldali.Data
                 .OnDelete(DeleteBehavior.Cascade);
             base.OnModelCreating(builder);
 
-            builder.Entity<Travel>().HasData(new Travel[]
-            {
-                new Travel("107887a9-4a29-4dca-adb1-adb179559207","Abádszalók","Tiszaderzs", 15),
-                
-            });
+            
         }
 
         

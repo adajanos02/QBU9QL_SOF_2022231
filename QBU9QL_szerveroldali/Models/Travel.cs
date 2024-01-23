@@ -11,7 +11,7 @@ namespace QBU9QL_szerveroldali.Models
         public string StartingPoint { get; set; }
         public string Destination { get; set; }
         public int Distance { get; set; }
-
+        
         public string OwnerId { get; set; }
         [NotMapped]
         public virtual SiteUser Owner { get; set; }

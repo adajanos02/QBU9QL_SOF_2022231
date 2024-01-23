@@ -10,7 +10,7 @@
 @{
         @foreach (var user in Model)
         {
-            <div class="card" style="width: 10rem;">
+            <div class="card">
                 <img src="@Url.Action("GetImage", "Travel", new {userid = user.Id})" class="card-img" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">@user.FirstName @user.LastName</h5>

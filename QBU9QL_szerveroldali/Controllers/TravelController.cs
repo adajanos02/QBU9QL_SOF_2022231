@@ -35,6 +35,8 @@ namespace QBU9QL_szerveroldali.Controllers
             var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
             await _userManager.RemoveFromRoleAsync(user, "Admin");
 
+
+            
             return RedirectToAction(nameof(Users));
         }
 
