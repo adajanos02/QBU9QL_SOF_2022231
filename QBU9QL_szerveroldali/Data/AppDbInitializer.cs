@@ -19,7 +19,7 @@ namespace QBU9QL_szerveroldali.Data
                     {
                         new Travel()
                         {
-                            OwnerId = "705f4658-d61c-40e7-9a7c-f635e583ce39",
+                            OwnerId = "4931acea-16fa-49e3-ad32-5f5b115b9428",
                             StartingPoint = "Balatonfüred",
                             Destination = "Pilisszentgyörgy",
                             Distance = 350,
@@ -51,7 +51,7 @@ namespace QBU9QL_szerveroldali.Data
                     {
                         new Contact()
                         {
-                            OwnerId = "705f4658-d61c-40e7-9a7c-f635e583ce39",
+                            OwnerId = "4931acea-16fa-49e3-ad32-5f5b115b9428",
                             Name = "Mentők",
                             PhoneNumber = "104"
                         },
